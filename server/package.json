@@ -1,0 +1,32 @@
+{
+  "name": "genealog-backend",
+  "version": "1.0.0",
+  "description": "genealogy web app backend server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m544498510/genealogyWebApp.git"
+  },
+  "keywords": [],
+  "author": "May",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/m544498510/genealogyWebApp/issues"
+  },
+  "homepage": "https://github.com/m544498510/genealogyWebApp#readme",
+  "dependencies": {
+    "graphql": "^0.13.1",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-json": "^2.0.2",
+    "koa-logger": "^3.1.0",
+    "koa-onerror": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "log4js": "^2.5.3"
+  }
+}
