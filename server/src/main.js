@@ -14,6 +14,9 @@ const logUtil = require('./utils/log');
 const {PORT} = require('../config');
 const publicPath = path.resolve(__dirname, '../public');
 
+const api = require('./routers');
+
+
 //add the middleware
 app.use(convert(bodyParser()));
 app.use(convert(json()));
@@ -33,24 +36,10 @@ app.use(async (ctx, next) => {
   }
 });
 
-const api = require('./routers');
-const test = require('./modules/testController');
-//router.use('/api', api.routes(), api.allowedMethods());
-
-router.get('/1', (ctx, next) => {
-  ctx.body = '111';
-});
-router.get('/getUser2',  (ctx, next) => {
-  ctx.body = {
-    name: 'name',
-    age: 12,
-    sex: 'male'
-  };
-});
-
+router.use('/api', api.routes(), api.allowedMethods());
 app
-  .use(test.routes())
-  .use(test.allowedMethods());
+  .use(router.routes())
+  .use(router.allowedMethods());
 
 try {
   app.listen(PORT);

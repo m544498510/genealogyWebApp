@@ -1,6 +1,6 @@
 const router = require('koa-router')();
-const testRouter = require('./modules/testController');
+const testRouter = require('./modules/test');
 
-router.use('/users', testRouter.routes(), testRouter.allowedMethods());
+router.use('/user', testRouter.routes(), testRouter.allowedMethods());
 
 module.exports = router;
