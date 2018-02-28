@@ -40,6 +40,3 @@ router.use('/api', api.routes());
 app.use(router.routes());
 
 app.listen(PORT);
-
-
-
