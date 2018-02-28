@@ -35,10 +35,8 @@ app.use(async (ctx: Object, next: Function) => {
   }
 });
 
-
 const router = new Router();
 router.use('/api', api.routes());
 app.use(router.routes());
-
 
 app.listen(PORT);
