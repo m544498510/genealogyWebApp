@@ -1,14 +1,14 @@
-const path = require('path');
+import * as path from 'path';
 
 //port number
-const port = 8080;
+export const PORT = 8080;
 //db config
-const dbConfig = {};
+export const DB_CFG = {};
 
 //log config
 const errLogPath = path.resolve(__dirname, "./logs/error/log");
 const respLogPath = path.resolve(__dirname, "./logs/response/log");
-const logCfg = {
+export const LOG_CFG = {
   appenders: {
     errorLogger: {
       "type": "dateFile",
@@ -35,6 +35,4 @@ const logCfg = {
   }
 };
 
-module.exports.PORT = port;
-module.exports.DB_CFG = dbConfig;
-module.exports.LOG_CFG = logCfg;
+

@@ -1,4 +1,4 @@
-const Router = require('koa-router');
+import * as Router from 'koa-router';
 const router = new Router();
 
 router.get('/getUser', ctx => {
@@ -31,4 +31,4 @@ router.get('/getUserList', ctx => {
   ];
 });
 
-module.exports = router;
+export default router;
