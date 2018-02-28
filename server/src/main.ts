@@ -22,7 +22,7 @@ const publicPath = path.resolve(__dirname, '../public');
 app.use(convert(staticTool(publicPath)));
 
 //add the logger
-app.use(async (ctx, next) => {
+app.use(async (ctx: Object, next: Function) => {
   const start = (new Date()).getDate();
   let ms = 0;
   try {
