@@ -7,9 +7,11 @@ import * as json from 'koa-json';
 import * as bodyParser from 'koa-bodyparser';
 import * as staticTool from 'koa-static';
 
+import * as mongoose from 'mongoose';
+
 import {graphqlKoa, graphiqlKoa} from 'apollo-server-koa';
 
-import {addLogger} from './utils/log';
+import {addLogger, errorLog} from './utils/log';
 import {PORT} from './config';
 
 import api from './routers';
@@ -32,7 +34,7 @@ router.use('/api', api.routes());
 router.post('/graphql', graphqlKoa({schema: schema}));
 router.get('/graphql', graphqlKoa({schema: schema}));
 
-if(process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === 'development') {
   router.get(
     '/graphiql',
     graphiqlKoa({
@@ -44,7 +46,26 @@ if(process.env.NODE_ENV === 'development'){
 
 app.use(router.routes());
 
-app.listen(PORT);
+const server = app.listen(PORT, () => {
+  console.log('Listening at port', server.address().port)
+});
+
+mongoose.connect('mongodb://localhost/genealogy')
+  .then(() => {
+    console.log('connect the mongodb');
+  })
+  .catch(e => {
+    errorLog(JSON.stringify(e));
+  });
 
 
+import User from './modules/user/model';
+const user = new User({
+  name: 'test',
+  password: 'pwd'
+});
+user.save()
+  .then(result => {
+    console.log(result);
+  });
 

@@ -4,8 +4,8 @@
   "description": "genealogy web app backend server",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && export NODE_ENV=development  && node dist/main.js",
-    "start:pro":"export NODE_ENV=production && tsc && node dist/main.js",
+    "start": "export NODE_ENV=development && tsc && node dist/main.js",
+    "start:pro": "export NODE_ENV=production && tsc && node dist/main.js",
     "build": "tsc"
   },
   "repository": {
@@ -30,9 +30,11 @@
     "koa-onerror": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
-    "log4js": "^2.5.3"
+    "log4js": "^2.5.3",
+    "mongoose": "^5.0.7"
   },
   "devDependencies": {
+    "@types/graphql": "^0.12.4",
     "@types/koa": "^2.0.44",
     "@types/koa-bodyparser": "^4.2.0",
     "@types/mongodb": "^3.0.5",

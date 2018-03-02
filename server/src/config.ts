@@ -7,8 +7,8 @@ export const PORT = 8080;
 export const DB_CFG = {};
 
 //log config
-const errLogPath = path.resolve(__dirname, "../logs/error/log");
-const respLogPath = path.resolve(__dirname, "../logs/response/log");
+const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/log");
+const respLogPath = path.resolve(__dirname, "../bin/runningData/logs/response/log");
 
 export const LOG_LEVEL:logLevelEnum = logLevelEnum.onlyErr;
 export const LOG_CFG = {
