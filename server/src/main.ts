@@ -9,7 +9,7 @@ import * as staticTool from 'koa-static';
 
 import {graphqlKoa, graphiqlKoa} from 'apollo-server-koa';
 
-import {errorLog, resLog} from './utils/log';
+import {addLogger} from './utils/log';
 import {PORT} from './config';
 
 import api from './routers';
@@ -25,29 +25,22 @@ const publicPath = path.resolve(__dirname, '../public');
 app.use(convert(staticTool(publicPath)));
 
 //add the logger
-app.use(async (ctx: Object, next: Function) => {
-  const start = (new Date()).getDate();
-  let ms = 0;
-  try {
-    await next();
-    ms = (new Date()).getDate() - start;
-    //resLog(ctx, ms);
-  } catch (e) {
-    ms = (new Date()).getDate() - start;
-    errorLog(ctx, e, ms);
-  }
-});
+addLogger(app);
 
 const router = new Router();
 router.use('/api', api.routes());
 router.post('/graphql', graphqlKoa({schema: schema}));
 router.get('/graphql', graphqlKoa({schema: schema}));
-router.get(
-  '/graphiql',
-  graphiqlKoa({
-    endpointURL: '/graphql', // a POST endpoint that GraphiQL will make the actual requests to
-  }),
-);
+
+if(process.env.NODE_ENV === 'development'){
+  router.get(
+    '/graphiql',
+    graphiqlKoa({
+      endpointURL: '/graphql', // a POST endpoint that GraphiQL will make the actual requests to
+    }),
+  );
+
+}
 
 app.use(router.routes());
 

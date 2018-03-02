@@ -30,7 +30,21 @@ const Query = new GraphQLObjectType({
         }
       },
       resolve: (_, args) => {
-        return {}
+        const map = {
+          1: {
+            id: 1,
+            name: '111',
+            age: 123,
+            sex: 'male'
+          },
+          2: {
+            id: 2,
+            name: '222',
+            age: 123,
+            sex: 'male'
+          }
+        };
+        return map[args.id];
       }
     }
   }

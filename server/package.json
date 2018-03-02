@@ -4,7 +4,8 @@
   "description": "genealogy web app backend server",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/main.js",
+    "start": "tsc && export NODE_ENV=development  && node dist/main.js",
+    "start:pro":"export NODE_ENV=production && tsc && node dist/main.js",
     "build": "tsc"
   },
   "repository": {
