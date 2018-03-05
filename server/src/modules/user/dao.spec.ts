@@ -1,13 +1,57 @@
 import * as mongoose from "mongoose";
-import {getUser, createUser, updateUser} from './dao';
+import {DB_CFG} from '../../config';
+import {getUser, createUser, updateUser, deleteUser} from './dao';
 
-mongoose.connect('mongodb://localhost/genealogy')
-  .then(() => {
-    console.log('connect the mongodb');
+describe('user dao unit test', ()=>{
+  beforeAll(() => {
+    return mongoose.connect(DB_CFG.url);
   });
 
-test("asd",()=>{
-  expect(1).toBe(1);
+  afterAll(()=>{
+    return mongoose.connection.close();
+  });
+
+  const name = 'ut_name';
+  const password = 'ut_password';
+  let id;
+
+  describe('function createUser ', ()=>{
+    test("should create user success",()=>{
+      return createUser(name, password)
+        .then((user)=>{
+          id = user._id;
+          expect(user.name).toBe(name);
+          expect(user.password).toBe(password);
+        });
+    });
+  });
+
+  describe('function getUser', ()=>{
+    test("should get user success", ()=>{
+      return getUser(name, password)
+        .then(user => {
+          expect(user._id).toBe(id);
+        });
+    });
+  });
+
+  describe('function updateUser', ()=>{
+    test('should update the user password by special', ()=>{
+      return updateUser(id,'new_password')
+        .then(user=>{
+          expect(user.password).toBe('new_password');
+        })
+    });
+  });
+
+  describe('function deleteUser', ()=>{
+    test('should delete user by id', ()=>{
+      return deleteUser(id)
+        .then(data=>{
+          console.log(data);
+        })
+    })
+  })
 });
 
 

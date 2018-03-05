@@ -26,3 +26,10 @@ export function updateUser(id: String, password: String): Promise<any> {
     });
 
 }
+
+export function deleteUser(id: String): Promise<any>{
+  return userModel.findById(id)
+    .then(user=>{
+      return user.remove();
+    })
+}

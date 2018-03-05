@@ -4,7 +4,9 @@ import {logLevelEnum} from './enums';
 //port number
 export const PORT = 8080;
 //db config
-export const DB_CFG = {};
+export const DB_CFG = {
+  url: 'mongodb://localhost/genealogy'
+};
 
 //log config
 const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/log");

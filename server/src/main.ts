@@ -12,7 +12,7 @@ import * as mongoose from 'mongoose';
 import {graphqlKoa, graphiqlKoa} from 'apollo-server-koa';
 
 import {addLogger, errorLog} from './utils/log';
-import {PORT} from './config';
+import {DB_CFG, PORT} from './config';
 
 import api from './routers';
 import schema from './modules/schema';
@@ -50,22 +50,10 @@ const server = app.listen(PORT, () => {
   console.log('Listening at port', server.address().port)
 });
 
-mongoose.connect('mongodb://localhost/genealogy')
+mongoose.connect(DB_CFG.url)
   .then(() => {
     console.log('connect the mongodb');
   })
   .catch(e => {
     errorLog(JSON.stringify(e));
   });
-
-
-import User from './modules/user/model';
-const user = new User({
-  name: 'test',
-  password: 'pwd'
-});
-user.save()
-  .then(result => {
-    console.log(result);
-  });
-
