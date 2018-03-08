@@ -30,7 +30,7 @@ describe('user dao unit test', ()=>{
     test("should get user success", ()=>{
       return getUser(name, password)
         .then(user => {
-          expect(user._id).toBe(id);
+          expect(user._id).toEqual(id);
         });
     });
   });
@@ -47,8 +47,8 @@ describe('user dao unit test', ()=>{
   describe('function deleteUser', ()=>{
     test('should delete user by id', ()=>{
       return deleteUser(id)
-        .then(data=>{
-          console.log(data);
+        .then(user=>{
+          expect(user._id).toEqual(id);
         })
     })
   })
