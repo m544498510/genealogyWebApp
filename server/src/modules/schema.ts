@@ -1,55 +1,31 @@
-import {GraphQLEnumType, GraphQLInt, GraphQLObjectType, GraphQLSchema, GraphQLString} from 'graphql';
-
-const User = new GraphQLObjectType({
-  name: 'User',
-  description: 'User object',
-  fields: {
-    id: {
-      type: GraphQLInt
-    },
-    name: {
-      type: GraphQLString
-    },
-    age: {
-      type: GraphQLInt
-    },
-    sex: {
-      type: GraphQLString
-    }
-  }
-});
+import {GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString} from 'graphql';
+import userResolver from './user/resolver';
 
 const Query = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    user: {
+    ...userResolver.query,
+  }
+});
+
+/*
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addUser:{
       type: User,
       args: {
-        id: {
-          type: GraphQLInt
-        }
+        name: GraphQLString
       },
       resolve: (_, args) => {
-        const map = {
-          1: {
-            id: 1,
-            name: '111',
-            age: 123,
-            sex: 'male'
-          },
-          2: {
-            id: 2,
-            name: '222',
-            age: 123,
-            sex: 'male'
-          }
-        };
-        return map[args.id];
+        console.log('mutation');
       }
     }
   }
 });
+*/
 
 export default new GraphQLSchema({
-  query: Query
+  query: Query,
+  //mutation: Mutation
 });

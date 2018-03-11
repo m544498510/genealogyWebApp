@@ -1,35 +1,43 @@
 import {model} from "mongoose";
 
-import {mongoSchema, IUser} from './model';
+import {mongoSchema, IUser} from './types';
 
 const userModel = model<IUser>('User', mongoSchema);
 
-export function getUser(name: String, password: String): Promise<IUser> {
-  return userModel.find({name, password})
-    .then((userList = []) => {
-      return userList[0]
-    });
+export async function getUserList(): Promise<IUser[]> {
+  return await userModel.find();
 }
 
-export function createUser(name: String, password: String): Promise<IUser> {
-  const newUser = new userModel({
-    name, password
-  });
-  return newUser.save();
+export async function getUser(name: String, password: String): Promise<IUser | undefined> {
+  const userList = await userModel.find({name, password});
+  return userList[0]
 }
 
-export function updateUser(id: String, password: String): Promise<any> {
-  return userModel.findById(id)
-    .then((user) => {
-      user.set({password});
-      return user.save();
-    });
-
+export async function getUserById(id: String): Promise<IUser | null> {
+  return await userModel.findById(id);
 }
 
-export function deleteUser(id: String): Promise<any>{
-  return userModel.findById(id)
-    .then(user=>{
-      return user.remove();
-    })
+export async function createUser(name: String, password: String): Promise<IUser> {
+  const newUser = new userModel({name, password});
+  return await newUser.save();
+}
+
+export async function updateUser(id: String, password: String): Promise<IUser | null> {
+  const user = await userModel.findById(id);
+  if(user){
+    user.set({password});
+    return await user.save();
+  } else {
+    return null;
+  }
+}
+
+export async function deleteUser(id: String): Promise<boolean> {
+  const user = userModel.findById(id);
+  if(user){
+    const result = await user.remove();
+    return result.n === 1 && result.ok === 1;
+  }else{
+    return false;
+  }
 }
