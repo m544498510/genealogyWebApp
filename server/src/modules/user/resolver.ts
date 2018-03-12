@@ -1,10 +1,11 @@
-import {graphSchema} from './types';
+import {graphSchema as userSchema} from './types';
 import {GraphQLList, GraphQLString} from "graphql";
-import {getUser, getUserList} from './dao';
+import {getUser, getUserList, createUser} from './dao';
+
 const query = {
   user: {
     name: 'user',
-    type: graphSchema,
+    type: userSchema,
     describe: 'get user by name and password',
     args: {
       name: {
@@ -14,20 +15,40 @@ const query = {
         type: GraphQLString
       }
     },
-    resolve: async (_, args:object) => {
+    resolve: async (_: any, args: any) => {
       return await getUser(args.name, args.password);
     }
   },
   userList: {
     name: 'user list',
-    type: new GraphQLList(graphSchema),
+    type: new GraphQLList(userSchema),
     describe: 'get user list',
-    resolve: async ()=>{
+    resolve: async () => {
       return await getUserList();
     }
   }
 };
 
+const mutation = {
+  addUser: {
+    name: 'addUser',
+    type: userSchema,
+    args: {
+      name: {
+        type: GraphQLString
+      },
+      password: {
+        type: GraphQLString
+      }
+    },
+    resolve: async (_: any, args: any) => {
+      console.log('add user', JSON.stringify(args));
+      return await createUser(args.name, args.password);
+    }
+  }
+};
+
 export default {
-  query
+  query,
+  mutation
 }
