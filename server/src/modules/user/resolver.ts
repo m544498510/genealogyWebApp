@@ -14,11 +14,7 @@ const query = {
         type: GraphQLString
       }
     },
-    resolve: async (_:any, args:any, a:any, b:any) => {
-      console.log('_:', _);
-      console.log('a:', a);
-      console.log('b:', b);
-
+    resolve: async (_, args:object) => {
       return await getUser(args.name, args.password);
     }
   },

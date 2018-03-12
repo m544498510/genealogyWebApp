@@ -25,7 +25,7 @@ const Mutation = new GraphQLObjectType({
 });
 */
 
-export default new GraphQLSchema({
+export default (new GraphQLSchema({
   query: Query,
   //mutation: Mutation
-});
+}));

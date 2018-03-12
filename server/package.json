@@ -4,8 +4,8 @@
   "description": "genealogy web app backend server",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development && tsc && node dist/main.js",
-    "start:pro": "cross-env NODE_ENV=production && tsc && node dist/main.js",
+    "start": "tsc && cross-env NODE_ENV=development node dist/main.js",
+    "start:pro": "tsc && cross-env NODE_ENV=production node dist/main.js",
     "build": "tsc",
     "test": "jest"
   },
