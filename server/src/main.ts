@@ -30,8 +30,8 @@ addLogger(app);
 
 const router = new Router();
 router.use('/api', api.routes());
-router.post('/graphql', graphqlKoa({schema: schema}));
 router.get('/graphql', graphqlKoa({schema: schema}));
+router.post('/graphql', graphqlKoa({schema: schema}));
 
 if (process.env.NODE_ENV !== 'production') {
   router.get(
