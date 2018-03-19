@@ -20,14 +20,6 @@ const GET_UserList = gql`
   }
 `;
 
-const CreateUser = gql`
-  mutation {
-    addUser (){
-      
-    }
-  }
-`;
-
 export class Test extends React.Component<Props> {
   render() {
     const {loading, error, userList} = this.props.data;
@@ -37,7 +29,7 @@ export class Test extends React.Component<Props> {
       return <div>{JSON.stringify(error)}</div>
     }else if(userList && userList.length > 0){
       return userList.map(item => (
-        <div>
+        <div key={item._id}>
           <span>Id: {item._id}</span>
           <span style={{marginLeft: 20}}>Name: {item.name}</span>
           <span style={{marginLeft: 20}}>Password: {item.password}</span>

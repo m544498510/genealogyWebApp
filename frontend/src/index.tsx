@@ -6,6 +6,7 @@ import {InMemoryCache} from 'apollo-cache-inmemory';
 
 import {ApolloProvider} from 'react-apollo';
 import Test from './test';
+import InputPanel from './Input';
 import './test.css';
 
 const client = new ApolloClient({
@@ -16,7 +17,10 @@ const client = new ApolloClient({
 render(
   (
     <ApolloProvider client={client}>
-      <Test />
+      <div>
+        <Test/>
+        <InputPanel />
+      </div>
     </ApolloProvider>
   ),
   document.getElementById('root')
