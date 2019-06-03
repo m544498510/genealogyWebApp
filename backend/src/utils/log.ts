@@ -1,5 +1,5 @@
-import * as Koa from 'koa';
-import * as log4js from 'log4js';
+import Koa from 'koa';
+import log4js from 'log4js';
 import {LOG_CFG, LOG_LEVEL} from '../config';
 import {logLevelEnum} from '../enums';
 

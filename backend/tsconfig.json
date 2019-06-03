@@ -6,6 +6,7 @@
     "sourceMap": true,
     "removeComments": true,
     "outDir": "dist/",
+    "esModuleInterop": true,
     "lib": [
       "es6",
       "esnext.asynciterable"

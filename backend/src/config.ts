@@ -1,11 +1,11 @@
-import * as path from 'path';
+import path from 'path';
 import {logLevelEnum} from './enums';
 
 //port number
 export const PORT = 8080;
 //db config
 export const DB_CFG = {
-  url: 'mongodb://localhost/genealogy'
+  url: 'mongodb://localhost/myZone'
 };
 
 //log config

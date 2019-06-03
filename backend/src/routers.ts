@@ -1,4 +1,4 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 import userRouter from './modules/test';
 
 const router = new Router();

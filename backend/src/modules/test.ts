@@ -1,10 +1,10 @@
-import * as Router from 'koa-router';
+import Router from 'koa-router';
 const router = new Router();
 
 router.get('/getUser', ctx => {
   ctx.body = {
     "name": "name",
-    "age": 12,
+    "age": 13,
     "sex": "male"
   };
 });

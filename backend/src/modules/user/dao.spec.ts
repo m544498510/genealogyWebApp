@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import {DB_CFG} from '../../config';
 import {getUser, getUserById, createUser, updateUser, deleteUser, getUserList} from './dao';
 
