@@ -1,2 +1,3 @@
-# genealogyWebApp
-genealogy web app(data display and admin page)
+# May's App
+somne applications based on immature ideas
+
