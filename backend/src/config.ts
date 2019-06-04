@@ -1,5 +1,5 @@
 import path from 'path';
-import {logLevelEnum} from './enums';
+import {envEnum, logLevelEnum} from './enums';
 
 //port number
 export const PORT = 8080;
@@ -8,18 +8,25 @@ export const DB_CFG = {
   url: 'mongodb://localhost/myZone'
 };
 
+export const apiPrefix = {
+  api: '/api',
+  graphql: '/graphql',
+  session: '/session'
+};
+
+
 //log config
 const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/log");
 const respLogPath = path.resolve(__dirname, "../bin/runningData/logs/response/log");
 
-export const LOG_LEVEL:logLevelEnum = logLevelEnum.onlyErr;
+export const LOG_LEVEL:logLevelEnum = process.env.NODE_ENV === envEnum.production ? logLevelEnum.onlyErr : logLevelEnum.normal;
 export const LOG_CFG = {
   appenders: {
     errorLogger: {
       "type": "dateFile",
       "filename": errLogPath,
       "alwaysIncludePattern": true,
-      "pattern": "-yyyy-MM-dd-hh.log"
+      "pattern": "-yyyy-MM-dd-hh.err.log"
     },
     resLogger: {
       "type": "dateFile",

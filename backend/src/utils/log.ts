@@ -1,6 +1,6 @@
-import Koa from 'koa';
+import Koa, {Context} from 'koa';
 import log4js from 'log4js';
-import {LOG_CFG, LOG_LEVEL} from '../config';
+import {apiPrefix, LOG_CFG, LOG_LEVEL} from '../config';
 import {logLevelEnum} from '../enums';
 
 export function addLogger(app: Koa) {
@@ -13,6 +13,15 @@ export function addLogger(app: Koa) {
     let ms = 0;
     try {
       await next();
+      //handle the graphql error
+      if (ctx.request.url.includes(apiPrefix.graphql)) {
+        const errors = JSON.parse(ctx.response.body).errors;
+        if (errors && errors.length > 0) {
+          ms = Date.now() - start;
+          errGraphqlLog(ctx, errors[0], ms);
+        }
+      }
+
       if (LOG_LEVEL === logLevelEnum.normal) {
         ms = Date.now() - start;
         resLog(ctx, ms);
@@ -42,6 +51,26 @@ export function errRequestLog(ctx: Koa.Context, e: Error, resTime: Number) {
   if (ctx) {
     errLogger.error(formatError(ctx, e, resTime));
   }
+}
+
+type graphqlError = {
+  extensions: {
+    code: string,
+    exception: {
+      errors: { message: string }[],
+      stacktrace: string[]
+    }
+  }
+}
+
+export function errGraphqlLog(ctx: Context, error: graphqlError, resTime: Number) {
+  const extensions = error.extensions;
+  const e = {
+    name: extensions.code,
+    message: extensions.exception.errors[0].message,
+    stack: extensions.exception.stacktrace.join('\n')
+  };
+  errRequestLog(ctx, e, resTime);
 }
 
 //response logger api
