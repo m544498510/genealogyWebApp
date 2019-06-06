@@ -16,8 +16,8 @@ export const apiPrefix = {
 
 
 //log config
-const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/log");
-const respLogPath = path.resolve(__dirname, "../bin/runningData/logs/response/log");
+const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/date");
+const respLogPath = path.resolve(__dirname, "../bin/runningData/logs/response/date");
 
 export const LOG_LEVEL:logLevelEnum = process.env.NODE_ENV === envEnum.production ? logLevelEnum.onlyErr : logLevelEnum.normal;
 export const LOG_CFG = {
@@ -26,13 +26,13 @@ export const LOG_CFG = {
       "type": "dateFile",
       "filename": errLogPath,
       "alwaysIncludePattern": true,
-      "pattern": "-yyyy-MM-dd-hh.err.log"
+      "pattern": "yyyy-MM-dd-hh.err.log"
     },
     resLogger: {
       "type": "dateFile",
       "filename": respLogPath,
       "alwaysIncludePattern": true,
-      "pattern": "-yyyy-MM-dd-hh.log"
+      "pattern": "yyyy-MM-dd-hh.log"
     }
   },
   categories:{

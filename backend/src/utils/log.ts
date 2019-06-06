@@ -3,6 +3,10 @@ import log4js from 'log4js';
 import {apiPrefix, LOG_CFG, LOG_LEVEL} from '../config';
 import {logLevelEnum} from '../enums';
 
+log4js.configure(LOG_CFG);
+const resLogger = log4js.getLogger('default');
+const errLogger = log4js.getLogger('error');
+
 export function addLogger(app: Koa) {
   app.use(async (ctx: Koa.Context, next: Function) => {
     if (LOG_LEVEL === logLevelEnum.noLog) {
@@ -20,9 +24,7 @@ export function addLogger(app: Koa) {
           ms = Date.now() - start;
           errGraphqlLog(ctx, errors[0], ms);
         }
-      }
-
-      if (LOG_LEVEL === logLevelEnum.normal) {
+      } else if (LOG_LEVEL === logLevelEnum.normal) {
         ms = Date.now() - start;
         resLog(ctx, ms);
       }
@@ -31,12 +33,7 @@ export function addLogger(app: Koa) {
       errRequestLog(ctx, e, ms);
     }
   });
-
 }
-
-log4js.configure(LOG_CFG);
-const errLogger = log4js.getLogger('errorLogger');
-const resLogger = log4js.getLogger('resLogger');
 
 export function errorLog(msg: String) {
   errLogger.error(`
