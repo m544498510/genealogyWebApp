@@ -8,7 +8,7 @@ const typeDefs = gql`
     nikeName: String 
   }
   type Query {
-    User(name: String): User
+    user(name: String): User
   }
 `;
 
@@ -20,5 +20,5 @@ const resolvers = {
 
 export default makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });

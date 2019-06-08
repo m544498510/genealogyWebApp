@@ -11,9 +11,9 @@ export const DB_CFG = {
 export const apiPrefix = {
   api: '/api',
   graphql: '/graphql',
-  session: '/session'
+  session: '/session',
+  public: '/public',
 };
-
 
 //log config
 const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/date");
