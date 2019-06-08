@@ -19,14 +19,26 @@ export function addLogger(app: Koa) {
       await next();
       //handle the graphql error
       if (ctx.request.url.includes(apiPrefix.graphql)) {
-        const errors = JSON.parse(ctx.response.body).errors;
-        if (errors && errors.length > 0) {
-          ms = Date.now() - start;
-          errGraphqlLog(ctx, errors[0], ms);
+        let errors;
+        try {
+          errors = JSON.parse(ctx.response.body).errors;
+        } catch (e) {
+          //do nothing
         }
-      } else if (LOG_LEVEL === logLevelEnum.normal) {
         ms = Date.now() - start;
-        resLog(ctx, ms);
+        if (errors && errors.length > 0) {
+          errGraphqlLog(ctx, errors[0], ms);
+        } else if(LOG_LEVEL === logLevelEnum.normal){
+          resLog(ctx, ms);
+        }
+      } else {
+        const status = ctx.response.status;
+        ms = Date.now() - start;
+        if(status < 200 || status >= 300){
+          errRequestLog(ctx, new Error(ctx.response.body), ms);
+        } else if (LOG_LEVEL === logLevelEnum.normal) {
+          resLog(ctx, ms);
+        }
       }
     } catch (e) {
       ms = Date.now() - start;

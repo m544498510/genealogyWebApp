@@ -18,7 +18,9 @@ import api from './modules/routers';
 import schema from './modules/schema';
 import {getUserInfo} from './utils/sessionUtils';
 
+console.log("starting...");
 const app = new Koa();
+app.keys = ["cookie key"];
 
 //add the static server
 const publicPath = path.resolve(__dirname, '../public');
@@ -27,21 +29,11 @@ app.use(mount('/public', staticTool(publicPath)));
 //add the logger
 addLogger(app);
 
-//init session middleware
-app.use(session({
-  key: 'sess', /** (string) cookie key (default is koa:sess) */
-  maxAge: 1800000,
-  overwrite: true,
-  httpOnly: true,
-  signed: true,
-  rolling: false,
-  /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
-  renew: false,
-  /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
-}, app));
-
 app.use(bodyParser());
 app.use(json());
+
+//init session middleware
+app.use(session({}, app));
 
 // auth
 app.use(async (ctx: Koa.Context, next: Function) => {
@@ -76,8 +68,10 @@ app.listen(PORT, () => {
 
 mongoose.connect(DB_CFG.url)
   .then(() => {
-    console.log('connect the mongodb');
+    console.log('connected the mongodb');
   })
   .catch(e => {
     errorLog(JSON.stringify(e));
   });
+
+console.log("main code complete");

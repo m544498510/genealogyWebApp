@@ -6,21 +6,31 @@ import {createSecret, deleteSecret, getSecretList, updateSecret} from "./service
 
 const typeDefs = gql`
   type Secret {
-    _id?: String
-    userId: string
-    siteName: string
-    url?: string
-    name: string
-    decryptPassword: string
-    note?: string
+    _id: String
+    userId: String
+    siteName: String!
+    url: String
+    userName: String!
+    decryptPassword: String!
+    note: String
   }
+  input SecretInput {
+    _id: String
+    userId: String
+    siteName: String!
+    url: String
+    userName: String!
+    decryptPassword: String!
+    note: String
+  }
+  
   type Query {
-    secrets: [Secret]
+    secrets: [Secret!]!
   }
   type Mutation {
-    addSecret(secretCfg: Secret): Secret
-    updateSecret(secretCfg: Secret): Secret
-    deleteSecret(id: String): Void
+    addSecret(secretCfg: SecretInput): Secret
+    updateSecret(secretCfg: SecretInput): Secret
+    deleteSecret(id: String): Boolean
   }
 `;
 
@@ -38,17 +48,16 @@ const resolvers = {
       secretCfg.userId = userId;
       return createSecret(secretCfg);
     },
-    updateSecret: (parent: any, args: {secret: ISecret}, context: {ctx: Context}) => {
+    updateSecret: (parent: any, args: {secretCfg: ISecret}, context: {ctx: Context}) => {
       const userId = getUserId(context.ctx);
-      const {secret} = args;
-      if(userId === secret.userId){
-        return updateSecret(secret)
+      const {secretCfg} = args;
+      if(userId === secretCfg.userId){
+        return updateSecret(secretCfg)
       } else {
         throw new Error("not permission");
       }
     },
-    deleteSecret:  (parent: any, args: {id: string}, context: {ctx: Context}) => {
-      //const userId = getUserId(context.ctx);
+    deleteSecret:  (parent: any, args: {id: string}) => {
       return deleteSecret(args.id);
     }
   }

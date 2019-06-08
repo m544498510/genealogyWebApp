@@ -13,7 +13,7 @@ export const mongoSchema = new Schema({
   url: {
     type: String,
   },
-  name: {
+  userName: {
     type: String,
     required: true,
   },
@@ -23,7 +23,6 @@ export const mongoSchema = new Schema({
   },
   note: {
     type: String,
-    required: false,
   }
 });
 
@@ -37,7 +36,7 @@ export interface ISecretCfg {
   userId: string,
   siteName: string,
   url?: string,
-  name: string,
+  userName: string,
   encryptPassword?: string,
   decryptPassword: string,
   note?: string,

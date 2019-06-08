@@ -1,8 +1,9 @@
 import {createCipheriv, createDecipheriv} from "crypto";
-const KEY = 'secret_key_mxl';
+const KEY = Buffer.from('secretKeyMxlmxlm', 'utf8');
+const IV = Buffer.from('initialVectorMxl', 'utf8');
 
-const cipher = createCipheriv('aes192', KEY, null);
-const decipher = createDecipheriv('aes192', KEY, null);
+const cipher = createCipheriv('AES128', KEY, IV);
+const decipher = createDecipheriv('AES128', KEY, IV);
 
 export function aesEncrypt(data: string): string {
   let crypted = cipher.update(data, 'utf8', 'hex');

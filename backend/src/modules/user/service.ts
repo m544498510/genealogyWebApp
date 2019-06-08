@@ -7,9 +7,8 @@ const secretKey = 'SECRET_KEY';
 const secretType = 'sha256';
 const digestKey = 'hex';
 
-const secretFactory = createHmac(secretType, secretKey);
-
 export function getUser(name: string, password: string): Promise<IUser | null> {
+  const secretFactory = createHmac(secretType, secretKey);
   const newPsd = secretFactory.update(password).digest(digestKey);
   return userDao.getUser(name, newPsd);
 }
@@ -17,6 +16,7 @@ export function getUser(name: string, password: string): Promise<IUser | null> {
 export async function createUser(name: string, password: string, nikeName: string): Promise<IUser | null> {
   const user = await userDao.getUserByName(name);
   if(!user){
+    const secretFactory = createHmac(secretType, secretKey);
     const newPsd = secretFactory.update(password).digest(digestKey);
     return userDao.createUser(name, newPsd, nikeName);
   }else{
