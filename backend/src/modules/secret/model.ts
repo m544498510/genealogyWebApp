@@ -17,7 +17,7 @@ export const mongoSchema = new Schema({
     type: String,
     required: true,
   },
-  password: {
+  encryptPassword: {
     type: String,
     required: true,
   },

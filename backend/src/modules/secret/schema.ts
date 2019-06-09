@@ -14,22 +14,28 @@ const typeDefs = gql`
     decryptPassword: String!
     note: String
   }
-  input SecretInput {
-    _id: String
-    userId: String
+  input addSecretInput {
     siteName: String!
     url: String
     userName: String!
     decryptPassword: String!
     note: String
   }
-  
+  input updateSecretInput {
+    _id: String!
+    userId: String!
+    siteName: String!
+    url: String
+    userName: String!
+    decryptPassword: String!
+    note: String
+  }
   type Query {
     secrets: [Secret!]!
   }
   type Mutation {
-    addSecret(secretCfg: SecretInput): Secret
-    updateSecret(secretCfg: SecretInput): Secret
+    addSecret(secretCfg: addSecretInput): Secret
+    updateSecret(secretCfg: updateSecretInput): Secret
     deleteSecret(id: String): Boolean
   }
 `;
