@@ -1,17 +1,16 @@
+import '@babel/polyfill';
 import * as React from 'react';
 import {render} from 'react-dom';
-import "antd/test.less";
+import { Provider } from 'react-redux';
 
-import Test from './test';
-import InputPanel from './Input';
-import './test.less';
+import store from './core/store';
+import App from './view/app';
 
 render(
   (
-      <div>
-        <Test data="loading" />
-        <InputPanel />
-      </div>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   ),
   document.getElementById('root')
 );

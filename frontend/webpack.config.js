@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
 
 const proxyPath = "http://localhost:3000";
 
@@ -10,8 +11,12 @@ const cfg = {
     path: __dirname + "/public/dist"
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"],
+    alias: {
+      "~": path.resolve(__dirname, 'src/'),
+    }
   },
+  
   plugins: [
     new HtmlWebpackPlugin({
       template: __dirname + "/src/index.html"
