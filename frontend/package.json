@@ -1,10 +1,12 @@
 {
-  "name": "myZoneApp",
+  "name": "my-zone-frontend",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080/",
   "scripts": {
-    "build": "cross-env NODE_ENV=production && webpack"
+    "prebuild": "rimraf ./public/dist",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --open"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -34,10 +36,12 @@
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.7.0",
+    "rimraf": "^2.6.3",
     "source-map-loader": "^0.2.4",
     "style-loader": "^0.23.1",
     "typescript": "^3.5.2",
     "webpack": "^4.34.0",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.4",
+    "webpack-dev-server": "^3.7.1"
   }
 }

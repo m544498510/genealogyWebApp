@@ -11,8 +11,6 @@ export default class InputPanel extends React.Component<any, any> {
         <br/>
         <span>Password: </span> <input type="password" onChange={e => this.password = e.target.value}/>
         <br/>
-
-        <div>{JSON.stringify(this.state.createResult)}</div>
       </div>
     )
   }
