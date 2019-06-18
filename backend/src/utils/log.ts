@@ -1,5 +1,7 @@
 import Koa, {Context} from 'koa';
 import log4js from 'log4js';
+import {GraphQLError} from 'graphql';
+
 import {apiPrefix, LOG_CFG, LOG_LEVEL} from '../config';
 import {logLevelEnum} from '../enums';
 
@@ -62,18 +64,8 @@ export function errRequestLog(ctx: Koa.Context, e: Error, resTime: Number) {
   }
 }
 
-type graphqlError = {
-  extensions: {
-    code: string,
-    exception: {
-      errors: { message: string }[],
-      stacktrace: string[]
-    }
-  }
-}
-
-export function errGraphqlLog(ctx: Context, error: graphqlError, resTime: Number) {
-  const extensions = error.extensions;
+export function errGraphqlLog(ctx: Context, error: GraphQLError, resTime: Number) {
+  const extensions = error.extensions || {};
   const e = {
     name: extensions.code,
     message: extensions.exception.errors[0].message,
