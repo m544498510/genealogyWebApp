@@ -1,5 +1,7 @@
 import {makeExecutableSchema, gql} from 'apollo-server-koa';
-import {createUser, getUserByName} from './service';
+import {createUser} from './service';
+import {Context} from "koa";
+import {getUserInfo} from "../../utils/sessionUtils";
 
 const typeDefs = gql`
   type User {
@@ -7,7 +9,7 @@ const typeDefs = gql`
     nikeName: String!
   }
   type Query {
-    user(name: String!): User
+    currentUser(): User
   }
   type Mutation {
     addUser(name: String!, password: String!, nikeName: String!): User
@@ -16,7 +18,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    user: (parent: object, args: {name: string}) => getUserByName(args.name)
+    currentUser: (_: object, args: object, context: {ctx: Context}) => getUserInfo(context.ctx)
   },
   Mutation: {
     addUser: (parent: any, args: {
