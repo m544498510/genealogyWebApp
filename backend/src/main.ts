@@ -39,13 +39,13 @@ app.use(session({}, app));
 app.use(async (ctx: Koa.Context, next: Function) => {
   //session filter
   const url = ctx.request.url;
-  if(url.includes(apiPrefix.api) || url.includes(apiPrefix.graphql)){
+  if (url.includes(apiPrefix.api) || url.includes(apiPrefix.graphql)) {
     if (url.includes(apiPrefix.session) || getUserInfo(ctx)) {
       await next();
     } else {
       ctx.response.status = 401;
     }
-  }else{
+  } else {
     //pass the page request
     next();
   }
