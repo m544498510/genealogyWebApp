@@ -40,7 +40,7 @@ app.use(async (ctx: Koa.Context, next: Function) => {
   //session filter
   const url = ctx.request.url;
   if(url.includes(apiPrefix.api) || url.includes(apiPrefix.graphql)){
-    if (url.includes(apiPrefix.session) || getUserInfo(ctx) || true) {
+    if (url.includes(apiPrefix.session) || getUserInfo(ctx)) {
       await next();
     } else {
       ctx.response.status = 401;
@@ -66,7 +66,7 @@ app.listen(PORT, () => {
   console.log('Listening at port', PORT);
 });
 
-mongoose.connect(DB_CFG.url)
+mongoose.connect(DB_CFG.url, {useNewUrlParser: true})
   .then(() => {
     console.log('connected the mongodb');
   })

@@ -63,7 +63,7 @@ describe('user dao unit test', () => {
 
   describe('function updateUser', () => {
     test('should update the user password by special', async () => {
-      const user = await updateUser(id, 'new_password');
+      const user = await updateUser(name, 'new_password');
       expect(user).not.toBeNull();
       if (user) {
         expect(user.password).toBe('new_password');

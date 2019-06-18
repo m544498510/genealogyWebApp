@@ -1,4 +1,5 @@
 import SecretModel, {ISecret, ISecretCfg} from "./model";
+import {DeleteWriteOpResultObject} from 'mongodb';
 
 export function getSecretById(secretId: string): Promise<ISecret | null> {
   return SecretModel.findById(secretId).exec();
@@ -34,16 +35,13 @@ export async function updateSecret(secretId: string, secret: ISecretCfg): Promis
 }
 
 export async function deleteSecret(id: string): Promise<boolean> {
-  const secret = SecretModel.findById(id);
-  if(secret){
-    const result = await secret.remove();
-    if( result.n === 1 && result.ok === 1){
-      return true;
-    }else{
-      throw new Error('delete failed');
-    }
-  }else{
-    throw new Error('can not find secret by id');
-  }
+  return SecretModel.deleteOne({_id: id})
+    .then((result: DeleteWriteOpResultObject['result']) => {
+      if(result.n === 1 && result.ok === 1){
+        return true;
+      } else {
+        throw new Error('delete failed');
+      }
+    });
 }
 

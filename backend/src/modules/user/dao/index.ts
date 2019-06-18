@@ -1,4 +1,5 @@
 import UserModel, {IUser} from '../model';
+import {DeleteWriteOpResultObject} from "mongodb";
 
 export function getUserList(): Promise<IUser[]> {
   return UserModel.find().exec();
@@ -27,12 +28,13 @@ export async function updateUser(name: string, password: string): Promise<IUser 
   }
 }
 
-export async function deleteUser(name: string): Promise<boolean> {
-  const user = UserModel.findOne({name});
-  if(user){
-    const result = await user.remove();
-    return result.n === 1 && result.ok === 1;
-  }else{
-    return false;
-  }
+export function deleteUser(name: string): Promise<boolean> {
+  return UserModel.deleteOne({name})
+    .then((result: DeleteWriteOpResultObject['result']) => {
+      if(result.n === 1 && result.ok === 1){
+        return true;
+      } else {
+        throw new Error('delete failed');
+      }
+    });
 }

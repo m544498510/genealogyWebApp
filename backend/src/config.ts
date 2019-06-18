@@ -5,7 +5,7 @@ import {envEnum, logLevelEnum} from './enums';
 export const PORT = 8080;
 //db config
 export const DB_CFG = {
-  url: 'mongodb://localhost/myZone'
+  url: 'mongodb://localhost:27017/myZone'
 };
 
 export const apiPrefix = {
