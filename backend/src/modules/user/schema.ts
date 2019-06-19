@@ -9,7 +9,7 @@ const typeDefs = gql`
     nikeName: String!
   }
   type Query {
-    currentUser(): User
+    currentUser: User
   }
   type Mutation {
     addUser(name: String!, password: String!, nikeName: String!): User

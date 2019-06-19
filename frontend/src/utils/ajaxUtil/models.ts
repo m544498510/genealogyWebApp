@@ -5,12 +5,12 @@ export interface ErrorResponseData {
   msg: string
 }
 
-export interface ErrorMsgObject {
+export interface ErrorMsgObject<T = any> {
   httpCode: number,
   code: string,
   title: string,
   msg: string,
-  response?: AxiosResponse
+  response?: AxiosResponse<T>
 }
 
 export interface HttpCodeMsgMap {
@@ -18,5 +18,5 @@ export interface HttpCodeMsgMap {
 }
 
 export interface BaseFailureHandle {
-  (response: AxiosResponse): void
+  (response: AxiosResponse, msgObj: ErrorMsgObject): void
 }

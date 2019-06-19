@@ -7,30 +7,29 @@ export function setProps(baseFailHandel: BaseFailureHandle) {
   _baseFailureHandel = baseFailHandel;
 }
 
-export function ajaxGet<T>(url: string, param?: object): Promise<T | ErrorMsgObject> {
-  return axios.get(url, {params: param})
-    .catch(errorHandle)
-    .then((res: AxiosResponse) => successHandle<T>(res));
+export function ajaxGet<T>(url: string, params?: object, withoutBaseHandle?: boolean): Promise<T> {
+  return axios.get(url, {params})
+    .then((res: AxiosResponse) => successHandle<T>(res))
+    .catch<never>((e: AxiosError) => errorHandle(e, withoutBaseHandle))
 }
 
-export function ajaxPost<T>(url: string, param?: object): Promise<T | ErrorMsgObject> {
-  return axios.post(url, param)
-    .catch(errorHandle)
-    .then((res: AxiosResponse) => successHandle<T>(res));
+export function ajaxPost<T>(url: string, params?: object, withoutBaseHandle?: boolean): Promise<T> {
+  return axios.post(url, params)
+    .then((res: AxiosResponse) => successHandle<T>(res))
+    .catch<never>((e: AxiosError) => errorHandle(e, withoutBaseHandle))
 }
 
-export function ajaxPut<T>(url: string, param?: object): Promise<T | ErrorMsgObject> {
-  return axios.put(url, param)
-    .catch(errorHandle)
-    .then((res: AxiosResponse) => successHandle<T>(res));
+export function ajaxPut<T>(url: string, params?: object, withoutBaseHandle?: boolean): Promise<T> {
+  return axios.put(url, params)
+    .then((res: AxiosResponse) => successHandle<T>(res))
+    .catch<never>((e: AxiosError) => errorHandle(e, withoutBaseHandle))
+
 }
 
-export function ajaxDel<T>(url: string, param?: object): Promise<T | ErrorMsgObject> {
-  return axios.delete(url, {
-    params: param,
-  })
-    .catch(errorHandle)
-    .then((res: AxiosResponse) => successHandle<T>(res));
+export function ajaxDel<T>(url: string, params?: object, withoutBaseHandle?: boolean): Promise<T> {
+  return axios.delete(url, {params})
+    .then((res: AxiosResponse) => successHandle<T>(res))
+    .catch<never>((e: AxiosError) => errorHandle(e, withoutBaseHandle))
 }
 
 // content must be JSON or JSONText
@@ -48,15 +47,15 @@ function getMsgByHttpCode(httpCode: number): string {
 }
 
 export function successHandle<T>(response: AxiosResponse): T {
-    return response.data;
+  return response.data;
 }
 
-export function errorHandle({response}: AxiosError): Promise<ErrorMsgObject> {
+export function errorHandle({response}: AxiosError, withoutBaseFailureHandle: boolean): Promise<never> {
   const msgObj = getCheckMsg(response.status, response.data);
   msgObj.response = response;
 
-  if (_baseFailureHandel) {
-    _baseFailureHandel(response);
+  if (_baseFailureHandel && !withoutBaseFailureHandle) {
+    _baseFailureHandel(response, msgObj);
   }
   return Promise.reject(msgObj);
 }
