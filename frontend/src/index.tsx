@@ -1,27 +1,30 @@
+import '@babel/polyfill';
 import * as React from 'react';
 import {render} from 'react-dom';
-import {ApolloClient} from 'apollo-client';
-import {HttpLink} from 'apollo-link-http';
-import {InMemoryCache} from 'apollo-cache-inmemory';
+import { Provider } from 'react-redux';
+import {History} from "history";
 
-import {ApolloProvider} from 'react-apollo';
-import Test from './test';
-import InputPanel from './Input';
-import './test.css';
+import store from './core/store';
+import RouteEnum from './view/RouteEnum';
 
-const client = new ApolloClient({
-  link: new HttpLink(),
-  cache: new InMemoryCache()
+import App from './view/app';
+import BrowserRouter, {getHistory} from './view/common/BrowserRouter';
+import {setProps} from "~/utils/ajaxUtil";
+
+setProps((response) => {
+  const history: History = getHistory();
+  if (response.status === 401) {
+    history.push(RouteEnum.LoginPage);
+  }
 });
 
 render(
   (
-    <ApolloProvider client={client}>
-      <div>
-        <Test/>
-        <InputPanel />
-      </div>
-    </ApolloProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Provider>
   ),
   document.getElementById('root')
 );

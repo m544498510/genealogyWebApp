@@ -1,0 +1,36 @@
+<!--
+/**
+ *******************************************************************************
+ *                       Continental Confidential
+ *                  Copyright (c) Continental, AG. 2017
+ *
+ *      This software is furnished under license and may be used or
+ *      copied only in accordance with the terms of such license.
+ *******************************************************************************
+ * @file test.html.html
+ * @brief test.html html file
+ *******************************************************************************
+ */
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+  test
+</body>
+<script>
+  $.post('/api/user/session', {
+    name: 'test',
+    password: 'test'
+  }, function(){
+    alert('success');
+    $.del('/api/user/session', function(){
+      alert('delete session success')
+    })
+  })
+</script>
+</html>

@@ -8,5 +8,5 @@ npm-debug.log
 node_modules
 dist
 logs
-server/bin/runningData
+*/bin/runningData
 build

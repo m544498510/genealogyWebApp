@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "strict": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "outDir": "dist/",
+    "esModuleInterop": true,
+    "lib": [
+      "es6",
+      "esnext.asynciterable"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+	  "node_modules",
+    "**/*.spec.ts"
+  ]
+}
