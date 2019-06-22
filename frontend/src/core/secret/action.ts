@@ -1,10 +1,14 @@
-import {Secret} from "~/core/secret/types";
+import {Secret, SortInfo} from "~/core/secret/types";
 import {Dispatch} from "redux";
 import {querySecrets} from "~/core/secret/dataProvider";
+import {Action} from "~/typeDeclare";
 
 export enum TYPES {
   SET_SECRETS = 'setSecrets',
-
+  SET_PAGE_NUM = 'setPageNum',
+  SET_PAGE_SIZE = 'setPageSize',
+  SET_SORT_INFO = 'setSortInfo',
+  SET_KEY_WORD = 'setKeyword',
 }
 
 function setSecrets(ids: string[], map: Map<string, Secret>) {
@@ -29,5 +33,33 @@ export function fetchSecrets() {
         });
         dispatch(setSecrets(ids, map));
       });
+  }
+}
+
+export function setKeyword(keyword: string): Action {
+  return {
+    type: TYPES.SET_KEY_WORD,
+    payload: keyword
+  }
+}
+
+export function setPageNum(num: number): Action {
+  return {
+    type: TYPES.SET_PAGE_NUM,
+    payload: num
+  }
+}
+
+export function setPageSize(size: number): Action {
+  return {
+    type: TYPES.SET_PAGE_SIZE,
+    payload: size
+  }
+}
+
+export function setSortInfo(sortInfo: SortInfo): Action {
+  return {
+    type: TYPES.SET_SORT_INFO,
+    payload: sortInfo
   }
 }

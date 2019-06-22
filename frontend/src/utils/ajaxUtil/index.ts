@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosResponse} from 'axios';
-import {ErrorResponseData, ErrorMsgObject, HttpCodeMsgMap, BaseFailureHandle} from './models';
+import {ErrorResponseData, ErrorMsgObject, HttpCodeMsgMap, BaseFailureHandle} from './types';
 
 let _baseFailureHandel: BaseFailureHandle;
 

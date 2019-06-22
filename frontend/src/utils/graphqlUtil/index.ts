@@ -1,6 +1,6 @@
 import {ajaxPost} from '../ajaxUtil';
 import {ExecutionResult} from 'graphql';
-import {ErrorMsgObject} from "~/utils/ajaxUtil/models";
+import {ErrorMsgObject} from "~/utils/ajaxUtil/types";
 
 let _apiPath = '/graphql';
 

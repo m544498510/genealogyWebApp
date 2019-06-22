@@ -1,5 +1,5 @@
 import {Modal, notification} from 'antd';
-import {ErrorMsgObject} from "~/utils/ajaxUtil/models";
+import {ErrorMsgObject} from "~/utils/ajaxUtil/types";
 
 let hasOpenDlg = false;
 
