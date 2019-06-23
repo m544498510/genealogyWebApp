@@ -3,15 +3,23 @@ import { Form, Icon, Input, Button } from 'antd';
 import { Redirect } from 'react-router-dom';
 
 import { ajaxErrorDialog } from '~/view/common/MsgDlg';
-//import { login } from '~/core/api/user';
+import { login } from '~/core/user/dataProvider';
 import RouteEnum from '../RouteEnum';
 
 import Panel from '../common/Panel';
 import './index.less';
+import {FormComponentProps} from "antd/es/form";
 
 const FormItem = Form.Item;
 
-class LoginPage extends React.Component {
+interface Props extends FormComponentProps {}
+interface State {
+  loading: boolean,
+  validate: boolean,
+  redirectToReferrer: boolean
+}
+
+class LoginPage extends React.Component<Props, State> {
   state = {
     loading: false,
     validate: true,
@@ -24,8 +32,7 @@ class LoginPage extends React.Component {
     });
   };
 
-/*
-  handleSubmit = (e) => {
+  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
@@ -43,19 +50,14 @@ class LoginPage extends React.Component {
       }
     });
   };
-*/
 
   render() {
-    return (
-      <div>login page</div>
-    )
-/*
     if (this.state.redirectToReferrer) {
-      return <Redirect to={paths.rootPath} from={paths.loginPage} />;
+      return <Redirect to={RouteEnum.RootPath} from={RouteEnum.LoginPage} />;
     }
 
     const { getFieldDecorator } = this.props.form;
-    let status;
+    let status: '' | 'error' = '';
     let statusHelp;
     if (!this.state.validate) {
       status = 'error';
@@ -105,7 +107,6 @@ class LoginPage extends React.Component {
         </Form>
       </Panel>
     );
-*/
   }
 }
 
