@@ -93,7 +93,7 @@ let cfg = {
 if (isDevMode) {
   cfg = merge(cfg, {
     mode: 'development',
-    devtool: "source-map",
+    devtool: "inline-source-map",
     devServer: {
       watchContentBase: true,
       compress: true, // gzip
