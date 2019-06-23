@@ -10,6 +10,7 @@ export function getUserInfo(): User | null {
     return null;
   }
 }
+
 export function setUserInfo(userInfo: User) {
   const str = JSON.stringify(userInfo);
   localStorage.setItem(USER_KEY, str);

@@ -1,14 +1,22 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
+const merge = require('webpack-merge');
+const tsImportPluginFactory = require('ts-import-plugin');
 
-const proxyPath = "http://localhost:3000";
+const proxyPath = "http://localhost:8080";
 
-const cfg = {
+//= ========================================================
+//  ENVIRONMENT VARS
+//---------------------------------------------------------
+const isDevMode = process.env.NODE_ENV === 'development';
+
+let cfg = {
   entry: "./src/index.tsx",
   output: {
     filename: "[name].[chunkhash].js",
-    path: __dirname + "/public/dist"
+    path: __dirname + "/public/dist",
+    publicPath: '/dist',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -21,97 +29,112 @@ const cfg = {
     new HtmlWebpackPlugin({
       template: __dirname + "/src/index.html"
     }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: '[name].[chunkhash].css',
+      chunkFilename: '[name].[chunkhash].css',
+    }),
   ],
   module: {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      {test: /\.tsx?$/, loader: "awesome-typescript-loader"},
+      {
+        test: /\.tsx?$/,
+        loader: "awesome-typescript-loader",
+        options: {
+          getCustomTransformers: () => ({
+            before: [tsImportPluginFactory({style: true})]
+          }),
+        },
+      },
       
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      {enforce: "pre", test: /\.js$/, loader: "source-map-loader"},
-    ],
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
+      },
+      {
+        test: /\.css$/,
+        use: [
+          isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+            options: isDevMode ? undefined : {
+              publicPath: __dirname + "/public/dist",
+              hmr: false,
+            },
+          }, {
+            loader: 'css-loader',
+          }, {
+            loader: 'less-loader',
+            options: {
+              sourceMap: isDevMode,
+              javascriptEnabled: true,
+            },
+          },
+        ],
+      },
     
+    ],
   },
-  
 };
 
-if (process.env.NODE_ENV === 'development') {
-  Object.assign(cfg, {
+//= ====================================
+//  DEVELOPMENT
+//-------------------------------------
+if (isDevMode) {
+  cfg = merge(cfg, {
     mode: 'development',
     devtool: "source-map",
     devServer: {
+      watchContentBase: true,
+      compress: true, // gzip
+      hot: true,
+      port: 3000,
       contentBase: './public/dist',
       proxy: {
         '/api': proxyPath,
         '/graphql': proxyPath
-      }
+      },
+      historyApiFallback: {
+        rewrites: [
+          {from: /./, to: '/dist/index.html'},
+        ],
+      },
+    },
+    output: {
+      filename: "[name].js"
     },
   });
-  cfg.output.filename = "[name].js";
-  cfg.module.rules.push(
-    {
-      test: /\.less$/,
-      use: [
-        {
-          loader: 'style-loader',
-        }, {
-          loader: 'css-loader', // translates CSS into CommonJS
-        }, {
-          loader: 'less-loader', // compiles Less to CSS
-          options: {
-            sourceMap: true,
-          },
-        },
-      ],
-    },
-  );
 }
-if (process.env.NODE_ENV === 'production') {
-  Object.assign(cfg, {
+
+if (!isDevMode) {
+  cfg = merge(cfg, {
     mode: 'production',
     optimization: {
       splitChunks: {
         cacheGroups: {
-          commons: {
+          antd: {
+            test: /[\\/](antd)|(rc-)[\\/]/,
+            chunks: 'all',
+            priority: 9,
+          },
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
             chunks: 'all'
-          }
+          },
+  
         }
       }
     },
   });
-  
-  cfg.plugins.unshift(
-    new MiniCssExtractPlugin({
-      filename: '[name].[chunkhash].css',
-    })
-  );
-  
-  cfg.module.rules.push(
-    {
-      test: /\.less$/,
-      use: [
-        {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            // you can specify a publicPath here
-            // by default it uses publicPath in webpackOptions.output
-            publicPath: __dirname + "/public/dist",
-            hmr: false,
-          },
-        },
-        {
-          loader: 'css-loader', // translates CSS into CommonJS
-        },
-        {
-          loader: 'less-loader', // compiles Less to CSS
-          options: {
-            sourceMap: false,
-          },
-        },
-      ],
-    },
-  );
 }
 module.exports = cfg;
