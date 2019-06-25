@@ -6,6 +6,7 @@ import RouteEnum from '~/view/RouteEnum';
 
 import LoginPage from '../LoginPage';
 import Layout from '../common/Layout';
+import "./index.less";
 
 export const App = () => (
   <div>
