@@ -99,14 +99,14 @@ if (isDevMode) {
       compress: true, // gzip
       hot: true,
       port: 3000,
-      contentBase: './public/dist',
+      contentBase: './public',
       proxy: {
         '/api': proxyPath,
         '/graphql': proxyPath
       },
       historyApiFallback: {
         rewrites: [
-          {from: /./, to: '/dist/index.html'},
+          {from: /^((?!api|graghql|public).)*$/, to: '/dist/index.html'},
         ],
       },
     },
