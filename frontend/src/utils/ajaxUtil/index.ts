@@ -33,12 +33,12 @@ export function ajaxDel<T>(url: string, params?: object, withoutBaseHandle?: boo
 }
 
 // content must be JSON or JSONText
-export function getCheckMsg(httpCode: number, {code, msg}: ErrorResponseData): ErrorMsgObject {
+export function getCheckMsg(httpCode: number, {code, message}: ErrorResponseData): ErrorMsgObject {
   return {
     httpCode,
     code,
-    title: getMsgByHttpCode(httpCode) || '',
-    msg: msg || '',
+    title: getMsgByHttpCode(httpCode) || 'Internal Error',
+    msg: message || '',
   };
 }
 
@@ -64,6 +64,10 @@ const httpCodeMsgMap: HttpCodeMsgMap = {
   200: 'Success',
   205: 'Processing',
 
+  400: 'Bad Request',
+  401: 'Unauthorized',
+  402: 'Payment Required',
+  403: 'Forbidden',
   404: 'Service Not Found',
   422: 'Unprocessable Entity',
 

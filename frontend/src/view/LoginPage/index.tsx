@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Form, Icon, Input, Button } from 'antd';
 import { Redirect } from 'react-router-dom';
 
-import { ajaxErrorDialog } from '~/view/common/MsgDlg';
+import {setUserInfo} from '~/utils/authUtils';
 import { login } from '~/core/user/dataProvider';
 import RouteEnum from '../RouteEnum';
 
@@ -40,10 +40,15 @@ class LoginPage extends React.Component<Props, State> {
         const { userName, password } = values;
 
         login(userName, password)
-          .then(() => {
+          .then((user) => {
+            setUserInfo(user);
             this.setState({ redirectToReferrer: true });
           })
-          .catch(ajaxErrorDialog)
+          .catch((e) => {
+            if(e.code === '401'){
+              this.setState({validate: false});
+            }
+          })
           .finally(() => {
             this.setState({ loading: false });
           });
@@ -53,15 +58,16 @@ class LoginPage extends React.Component<Props, State> {
 
   render() {
     if (this.state.redirectToReferrer) {
+      console.log(RouteEnum.RootPath);
       return <Redirect to={RouteEnum.RootPath} from={RouteEnum.LoginPage} />;
     }
 
     const { getFieldDecorator } = this.props.form;
-    let status: '' | 'error' = '';
+    let status: undefined | 'error' = undefined;
     let statusHelp;
     if (!this.state.validate) {
       status = 'error';
-      statusHelp = 'Login Failed!';
+      statusHelp = 'Incorrect username or password.';
     }
     return (
       <Panel

@@ -2,7 +2,7 @@ import {AxiosResponse} from "axios";
 
 export interface ErrorResponseData {
   code: string,
-  msg: string
+  message: string
 }
 
 export interface ErrorMsgObject<T = any> {
