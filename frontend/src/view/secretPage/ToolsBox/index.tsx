@@ -2,20 +2,20 @@ import * as React from 'react';
 import {Input, Button, Icon} from 'antd';
 import {connect} from 'react-redux';
 
-//import {actions, selectors} from '~/core/modules/secret';
+import {actions, selectors} from '~/core/secret';
+import {RootState} from "~/core/reducers";
 
-export default class ToolsBox extends React.PureComponent {
-/*
-  onChange = e => {
+export interface ToolsBoxProps {
+  setKeyword: (keyword: string) => void,
+  keyword: string
+}
+
+export class ToolsBox extends React.PureComponent<ToolsBoxProps> {
+  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.setKeyword(e.target.value);
   };
-*/
 
   render() {
-    return (
-      <div>Tools</div>
-    )
-/*
     return (
       <div className="tools-box">
         <div className="left-box">
@@ -35,12 +35,10 @@ export default class ToolsBox extends React.PureComponent {
         </div>
       </div>
     );
-*/
   }
 }
 
-/*
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState) => ({
   keyword: selectors.getKeyword(state)
 });
 
@@ -49,4 +47,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolsBox);
-*/

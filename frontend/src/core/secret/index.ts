@@ -1,6 +1,12 @@
-export * from './action';
-export * from './selector';
+import * as actions from './action';
+import * as selectors from './selector';
 export * from './types';
-export { default as reducer } from './reducer';
+import reducer from './reducer';
 
 export const stateName = "secret";
+
+export {
+  actions,
+  selectors,
+  reducer,
+}

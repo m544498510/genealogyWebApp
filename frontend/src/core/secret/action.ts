@@ -2,6 +2,8 @@ import {Secret, SortInfo} from "~/core/secret/types";
 import {Dispatch} from "redux";
 import {querySecrets} from "~/core/secret/dataProvider";
 import {Action} from "~/typeDeclare";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "~/core/reducers";
 
 export enum TYPES {
   SET_SECRETS = 'setSecrets',
@@ -21,7 +23,7 @@ function setSecrets(ids: string[], map: Map<string, Secret>) {
   }
 }
 
-export function fetchSecrets() {
+export function fetchSecrets(): ThunkAction<Promise<Secret[]>, RootState, any, Action> {
   return (dispatch: Dispatch) => {
     return querySecrets()
       .then(secrets => {
@@ -32,6 +34,7 @@ export function fetchSecrets() {
           return id;
         });
         dispatch(setSecrets(ids, map));
+        return secrets;
       });
   }
 }

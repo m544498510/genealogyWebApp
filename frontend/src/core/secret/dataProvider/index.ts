@@ -3,7 +3,8 @@ import {mutation, query} from "~/utils/graphqlUtil";
 import {Secret, SecretCfg} from "../types";
 
 export function querySecrets(): Promise<Secret[]> {
-  return query<Secret[]>(QUERY_SECRETS, 'fetchSecrets');
+  return query<{secrets: Secret[]}>(QUERY_SECRETS)
+    .then(data => data.secrets);
 }
 
 export function addSecret(secretCfg: SecretCfg):Promise<Secret>{
