@@ -24,7 +24,7 @@ app.keys = ["cookie key"];
 
 //add the static server
 const publicPath = path.resolve(__dirname, '../public');
-app.use(mount('/public', staticTool(publicPath)));
+app.use(mount('/', staticTool(publicPath)));
 
 //add the logger
 addLogger(app);
