@@ -1,7 +1,7 @@
 @echo off
 cd %cd%
 
-cd ../server/bin
+cd ../backend/bin
 start  mongoStart.bat
 
 cd ../
