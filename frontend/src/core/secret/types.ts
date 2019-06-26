@@ -1,4 +1,4 @@
-import {SortOrder} from '~/enums';
+import {SortOrder} from 'antd/lib/table/interface';
 
 export enum SecretSortableProps {
   SITE_NAME = 'siteName',
@@ -20,6 +20,9 @@ export interface SecretCfg {
 
 export interface Secret extends SecretCfg {
   _id: string,
+
+  //hack for sort function
+  [propName: string]: any;
 }
 
 export type SecretState = {
@@ -35,6 +38,6 @@ export type SecretState = {
 }
 
 export interface SortInfo {
-  readonly order: SortOrder,
-  readonly target: SecretSortableProps
+  readonly order: SortOrder | false,
+  readonly target: SecretSortableProps | string
 }

@@ -46,9 +46,9 @@ export const getDisplaySecrets = createSelector(
         const secret = map.get(id);
         return (
           secret.siteName.includes(keyword)
-          || secret.url.includes(keyword)
+          || (secret.url && secret.url.includes(keyword))
           || secret.userName.includes(keyword)
-          || secret.note.includes(keyword)
+          || ( secret.note && secret.note.includes(keyword))
         );
       })
     }

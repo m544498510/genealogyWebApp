@@ -7,14 +7,15 @@ import {ajaxErrorDialog} from "~/view/common/MsgDlg";
 
 const TextArea = Input.TextArea;
 
-export interface CreateSecretDlgProps extends FormComponentProps {
+export interface EditSecretDlgProps extends FormComponentProps {
   visible: boolean,
   onCancel: () => void,
-  createSecret: (cfg: SecretCfg) => Promise<Secret>
+  editSecret: (cfg: SecretCfg) => Promise<Secret>,
+  currentSecret: Secret,
 }
 
-export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
-  componentDidUpdate(prevProps: CreateSecretDlgProps): void {
+export class EditSecretDlg extends React.PureComponent<EditSecretDlgProps> {
+  componentDidUpdate(prevProps: EditSecretDlgProps): void {
     if (prevProps.visible === true && this.props.visible === false) {
       this.props.form.resetFields();
     }
@@ -24,20 +25,24 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.createSecret(values)
+        const secret = Object.assign({}, this.props.currentSecret, values);
+
+        this.props.editSecret(secret)
           .finally(this.props.onCancel)
-          .then(() => message.success("添加成功！"))
+          .then(() => message.success("修改成功！"))
           .catch(ajaxErrorDialog);
       }
     });
   };
 
   render() {
-    const {visible, onCancel, form} = this.props;
+    const {visible, onCancel, form, currentSecret} = this.props;
+    if (!currentSecret) return null;
+
     const {getFieldDecorator} = form;
     return (
       <Modal
-        title="增加新的密码"
+        title="编辑新的密码"
         visible={visible}
         onCancel={onCancel}
         onOk={this.onCommit}
@@ -45,6 +50,7 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
         <Form {...formItemLayout}>
           <Form.Item label="网站名称">
             {getFieldDecorator('siteName', {
+              initialValue: currentSecret.siteName || '',
               rules: [
                 {
                   required: true,
@@ -54,10 +60,13 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
             })(<Input/>)}
           </Form.Item>
           <Form.Item label="网址">
-            {getFieldDecorator('url', {})(<Input/>)}
+            {getFieldDecorator('url', {
+              initialValue: currentSecret.url,
+            })(<Input/>)}
           </Form.Item>
           <Form.Item label="用户名">
             {getFieldDecorator('userName', {
+              initialValue: currentSecret.userName,
               rules: [
                 {
                   required: true,
@@ -68,6 +77,7 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
           </Form.Item>
           <Form.Item label="密码">
             {getFieldDecorator('decryptPassword', {
+              initialValue: currentSecret.decryptPassword,
               rules: [
                 {
                   required: true,
@@ -77,7 +87,9 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
             })(<Input.Password/>)}
           </Form.Item>
           <Form.Item label="备注">
-            {getFieldDecorator('note')(<TextArea/>)}
+            {getFieldDecorator('note', {
+              initialValue: currentSecret.note,
+            })(<TextArea/>)}
           </Form.Item>
         </Form>
       </Modal>
@@ -85,10 +97,10 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
   }
 }
 
-const formWrapper = Form.create<CreateSecretDlgProps>()(CreateSecretDlg);
+const formWrapper = Form.create<EditSecretDlgProps>()(EditSecretDlg);
 
 const mapDispatchToProps = {
-  createSecret: actions.createSecret
+  editSecret: actions.updateSecret
 };
 
 export default connect(null, mapDispatchToProps)(formWrapper);

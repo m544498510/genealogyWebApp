@@ -8,13 +8,15 @@ export function querySecrets(): Promise<Secret[]> {
 }
 
 export function addSecret(secretCfg: SecretCfg):Promise<Secret>{
-  return mutation<Secret>(ADD_SECRET, 'addSecret', {secretCfg});
+  return mutation<{addSecret: Secret}>(ADD_SECRET, 'addSecret', {secretCfg})
+    .then(data => data.addSecret);
 }
 
 export function updateSecret(secret: Secret): Promise<Secret> {
-  return mutation<Secret>(UPDATE_SECRET, 'updateSecret', secret);
+  return mutation<{updateSecret: Secret}>(UPDATE_SECRET, 'updateSecret', {secretCfg:secret})
+    .then(data => data.updateSecret);
 }
 
 export function delSecret(id: string): Promise<boolean> {
-  return mutation<boolean>(DEL_SECRET, 'delSecret', {id});
+  return mutation<boolean>(DEL_SECRET, 'deleteSecret', {id});
 }

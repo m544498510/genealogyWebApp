@@ -1,6 +1,5 @@
 import {TYPES} from './action';
 import {SecretSortableProps, SecretState} from "./types";
-import {SortOrder} from "~/enums";
 import {Action} from '~/typeDeclare';
 
 const defaultState: SecretState = {
@@ -12,9 +11,8 @@ const defaultState: SecretState = {
 
   sortInfo: {
     target: SecretSortableProps.EMPTY,
-    order: SortOrder.false,
+    order: false,
   },
-
   keyword: '',
 };
 

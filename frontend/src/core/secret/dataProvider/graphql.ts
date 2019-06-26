@@ -41,7 +41,7 @@ export const UPDATE_SECRET = `
 `;
 
 export const DEL_SECRET = `
-  mutation deleteSecret($id: ID!){
+  mutation deleteSecret($id: String!){
     deleteSecret(id: $id)
   }
 `;
