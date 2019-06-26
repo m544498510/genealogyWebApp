@@ -8,7 +8,7 @@ export function querySecrets(): Promise<Secret[]> {
 }
 
 export function addSecret(secretCfg: SecretCfg):Promise<Secret>{
-  return mutation<Secret>(ADD_SECRET, 'addSecret', secretCfg);
+  return mutation<Secret>(ADD_SECRET, 'addSecret', {secretCfg});
 }
 
 export function updateSecret(secret: Secret): Promise<Secret> {

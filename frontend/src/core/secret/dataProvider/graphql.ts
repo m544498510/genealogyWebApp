@@ -13,8 +13,8 @@ export const QUERY_SECRETS =  `
 `;
 
 export const ADD_SECRET = `
-  mutation addSecret($siteName: string!, $url: string, $userName: string!, $decryptPassword: string!, $note: string) {
-    addSecret(siteName: $siteName, url: $url, userName: $userName, decryptPassword: $decryptPassword, note: $note){
+  mutation addSecret($secretCfg: addSecretInput) {
+    addSecret(secretCfg: $secretCfg){
       _id
       siteName
       url
@@ -27,8 +27,8 @@ export const ADD_SECRET = `
 `;
 
 export const UPDATE_SECRET = `
-  mutation updateSecret($id: ID!, $siteName: string!, $url: string, $userName: string!, $decryptPassword: string!, $note: string) {
-    updateSecret(_id: $id, siteName: $siteName, url: $url, userName: $userName, decryptPassword: $decryptPassword, note: $note){
+  mutation updateSecret($secretCfg: updateSecretInput) {
+    updateSecret(secretCfg: $secretCfg){
       _id
       siteName
       url

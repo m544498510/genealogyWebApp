@@ -1,9 +1,10 @@
-import {Secret, SortInfo} from "~/core/secret/types";
+import {Secret, SecretCfg, SortInfo} from "~/core/secret/types";
 import {Dispatch} from "redux";
-import {querySecrets} from "~/core/secret/dataProvider";
+import * as dp from "~/core/secret/dataProvider";
 import {Action} from "~/typeDeclare";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "~/core/reducers";
+import {getSecretMap} from "~/core/secret/selector";
 
 export enum TYPES {
   SET_SECRETS = 'setSecrets',
@@ -24,19 +25,17 @@ function setSecrets(ids: string[], map: Map<string, Secret>) {
 }
 
 export function fetchSecrets(): ThunkAction<Promise<Secret[]>, RootState, any, Action> {
-  return (dispatch: Dispatch) => {
-    return querySecrets()
-      .then(secrets => {
-        const map = new Map<string, Secret>();
-        const ids = secrets.map(secret => {
-          const id = secret._id;
-          map.set(id, secret);
-          return id;
-        });
-        dispatch(setSecrets(ids, map));
-        return secrets;
+  return (dispatch: Dispatch) => dp.querySecrets()
+    .then(secrets => {
+      const map = new Map<string, Secret>();
+      const ids = secrets.map(secret => {
+        const id = secret._id;
+        map.set(id, secret);
+        return id;
       });
-  }
+      dispatch(setSecrets(ids, map));
+      return secrets;
+    });
 }
 
 export function setKeyword(keyword: string): Action {
@@ -65,4 +64,37 @@ export function setSortInfo(sortInfo: SortInfo): Action {
     type: TYPES.SET_SORT_INFO,
     payload: sortInfo
   }
+}
+
+export function createSecret(secretCfg: SecretCfg): ThunkAction<Promise<Secret>, RootState, any, any> {
+  return (dispatch, getState) => dp.addSecret(secretCfg)
+    .then(secret => {
+      const orgSecretMap = getSecretMap(getState());
+      const id = secret._id;
+      orgSecretMap.set(id, secret);
+      const secretMap = new Map(orgSecretMap);
+      dispatch(setSecrets([...secretMap.keys()], secretMap));
+      return secret;
+    })
+}
+
+export function updateSecret(secret: Secret): ThunkAction<Promise<Secret>, RootState, any, any> {
+  return (dispatch, getState) => dp.updateSecret(secret)
+    .then(secret => {
+      const orgSecretMap = getSecretMap(getState());
+      orgSecretMap.set(secret._id, secret);
+      const secretMap = new Map(orgSecretMap);
+      dispatch(setSecrets([...secretMap.keys()], secretMap));
+      return secret;
+    })
+}
+
+export function delSecret(id: string): ThunkAction<Promise<void>, RootState, any, any> {
+  return (dispatch, getState) => dp.delSecret(id)
+    .then(() => {
+      const orgSecretMap = getSecretMap(getState());
+      orgSecretMap.delete(id);
+      const secretMap = new Map(orgSecretMap);
+      dispatch(setSecrets([...secretMap.keys()], secretMap));
+    })
 }

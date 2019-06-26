@@ -22,7 +22,7 @@ export function mutation<T>(mutation: string, operationName: string, variables: 
   return ajaxPost<T>(_apiPath, {
     operationName,
     variables,
-    mutation
+    query: mutation
   })
     .then((result: ExecutionResult<T>) => result.data)
     .catch(errorHandle)

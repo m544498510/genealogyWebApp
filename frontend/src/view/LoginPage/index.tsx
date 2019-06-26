@@ -1,12 +1,11 @@
 import * as React from 'react';
-import {Form, Icon, Input, Button} from 'antd';
+import {Form, Icon, Input, Button, Card} from 'antd';
 import {Redirect} from 'react-router-dom';
 
 import {setUserInfo} from '~/utils/authUtils';
 import {login} from '~/core/user/dataProvider';
 import RouteEnum from '../RouteEnum';
 
-import Panel from '../common/Panel';
 import './index.less';
 import {FormComponentProps} from "antd/es/form";
 
@@ -73,7 +72,7 @@ class LoginPage extends React.Component<Props, State> {
     }
     return (
       <div className="login-container">
-        <Panel
+        <Card
           className="login-panel container"
           title="登录"
         >
@@ -113,7 +112,7 @@ class LoginPage extends React.Component<Props, State> {
               </Button>
             </FormItem>
           </Form>
-        </Panel>
+        </Card>
       </div>
     );
   }

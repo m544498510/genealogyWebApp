@@ -1,38 +1,51 @@
 import * as React from 'react';
-import {Input, Button, Icon} from 'antd';
+import {Input, Button} from 'antd';
 import {connect} from 'react-redux';
 
 import {actions, selectors} from '~/core/secret';
 import {RootState} from "~/core/reducers";
 
+import "./index.less";
+import CreateSecretDlg from "~/view/secretPage/ToolsBox/CreateSecretDlg";
+
+const Search = Input.Search;
 export interface ToolsBoxProps {
   setKeyword: (keyword: string) => void,
   keyword: string
 }
+interface ToolsBoxState {
+  createDlgVisible: boolean
+}
 
-export class ToolsBox extends React.PureComponent<ToolsBoxProps> {
-  onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.setKeyword(e.target.value);
+export class ToolsBox extends React.PureComponent<ToolsBoxProps, ToolsBoxState> {
+  state = {
+    createDlgVisible: false
   };
 
+  hideCreateDlg = () => this.setState({createDlgVisible: false});
+  showCreateDlg = () => this.setState({createDlgVisible: true});
+
   render() {
+    const {createDlgVisible} = this.state;
     return (
       <div className="tools-box">
         <div className="left-box">
           <Button
-            icon="add"
+            icon="plus"
             type="primary"
-            ghost={true}
-            shape="circle"
-          />
+            onClick={this.showCreateDlg}
+          >新建</Button>
         </div>
         <div className="right-box">
-          <Icon type="search"/>
-          <Input
-            value={this.props.keyword}
-            onChange={this.onChange}
+          <Search
+            placeholder="关键字搜索"
+            onSearch={(value: string) => this.props.setKeyword(value)}
           />
         </div>
+        <CreateSecretDlg
+          visible={createDlgVisible}
+          onCancel={this.hideCreateDlg}
+        />
       </div>
     );
   }

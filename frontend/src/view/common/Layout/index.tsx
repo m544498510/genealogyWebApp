@@ -59,7 +59,7 @@ export default class CustomLayout extends React.PureComponent<LayoutProps, Layou
               changeCollapse={this.onCollapse}
             />
           </Header>
-          <Content style={{margin: '0 16px'}}>
+          <Content style={{margin: '16px 16px 0'}}>
             {children}
           </Content>
           <Footer style={{textAlign: 'center'}}>May's Zone ©2019 Created by firefly_may</Footer>
