@@ -6,11 +6,13 @@ cd ../frontend
 npm i
 npm run build
 
-mv ./public ../backend/
+cp -r ./public ../backend/
 
 cd ../backend/bin
 
-bash mongoStart.sh
+if [ ! -d "./runningData" ]; then
+  mkdir ./runningData/
+fi
 
 cd ../
 npm i
