@@ -39,7 +39,7 @@ export default class AvatarDropdown extends React.PureComponent {
     return currentUser && currentUser.name ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className="action account">
-          <Avatar size="small" className="avatar" src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" alt="avatar" />
+          <Avatar size="small" className="avatar" src="/asset/avatar.jpg" alt="avatar" />
           <span className="name">{currentUser.name}</span>
         </span>
       </HeaderDropdown>
