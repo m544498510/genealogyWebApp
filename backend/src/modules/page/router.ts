@@ -13,7 +13,7 @@ router.get('/*', ctx => {
     && !url.includes(apiPrefix.public) && !url.includes(apiPrefix.graphql)
   ) {
     ctx.response.type = 'html';
-    ctx.response.body = createReadStream(path.resolve(publicPath, './dist/index.html'));
+    ctx.response.body = createReadStream(path.resolve(publicPath, './public/index.html'));
   }
 });
 
