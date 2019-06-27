@@ -10,3 +10,9 @@ dist
 logs
 */bin/runningData
 build
+
+
+# build file
+frontend/public/index.html
+*/backend/public
+

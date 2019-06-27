@@ -14,9 +14,9 @@ const isDevMode = process.env.NODE_ENV === 'development';
 let cfg = {
   entry: "./src/index.tsx",
   output: {
-    filename: "[name].[chunkhash].js",
-    path: __dirname + "/public/dist",
-    publicPath: '/dist',
+    filename: "dist/[name].[chunkhash].js",
+    path: path.resolve(__dirname, 'public'),
+    publicPath: '/public/',
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -32,8 +32,8 @@ let cfg = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: '[name].[chunkhash].css',
-      chunkFilename: '[name].[chunkhash].css',
+      filename: 'dist/[name].[chunkhash].css',
+      chunkFilename: 'dist/[name].[chunkhash].css',
     }),
   ],
   module: {
@@ -100,18 +100,19 @@ if (isDevMode) {
       hot: true,
       port: 3000,
       contentBase: './public',
+      publicPath: '/public/',
       proxy: {
         '/api': proxyPath,
         '/graphql': proxyPath
       },
       historyApiFallback: {
         rewrites: [
-          {from: /^((?!api|graghql|public).)*$/, to: '/dist/index.html'},
+          {from: /^((?!api|graghql|public).)*$/, to: '/public/index.html'},
         ],
       },
     },
     output: {
-      filename: "[name].js"
+      filename: "dist/[name].js"
     },
   });
 }
