@@ -1,22 +1,29 @@
 @import '~antd/es/style/themes/default.less';
-.secret-table{
+
+.secret-table {
   .anticon {
     cursor: pointer;
-    color: @primary-color;
   }
-    .right-box{
+  tbody {
+    .anticon {
+      color: @primary-color;
+    }
+  }
+  .right-box {
     float: right;
     color: @primary-color;
-    .anticon{
+
+    .anticon {
       margin-right: 8px;
     }
   }
 
-  .anticon-edit{
+  .anticon-edit {
     color: @primary-color;
     margin-right: 8px;
   }
-  .anticon-delete{
+
+  .anticon-delete {
     color: @error-color;
   }
 }

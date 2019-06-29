@@ -183,7 +183,7 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
             title="其他"
             dataIndex="other"
             key="other"
-            width="5%"
+            width="100px"
             render={(_, item: Secret) => {
               return (
                 <Fragment>
@@ -203,7 +203,7 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
             title="操作"
             dataIndex="action"
             key="action"
-            width="5%"
+            width="100px"
             render={(_, item: Secret) => {
               return (
                 <Fragment>
