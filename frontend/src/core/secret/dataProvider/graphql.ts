@@ -8,6 +8,7 @@ export const QUERY_SECRETS =  `
       decryptPassword
       note
       userId
+      phone
     }
   }
 `;
@@ -22,6 +23,7 @@ export const ADD_SECRET = `
       decryptPassword
       note
       userId
+      phone
     }
   }
 `;
@@ -36,6 +38,7 @@ export const UPDATE_SECRET = `
       decryptPassword
       note
       userId
+      phone
     }
   }
 `;
