@@ -23,6 +23,9 @@ export const mongoSchema = new Schema({
   },
   note: {
     type: String,
+  },
+  phone: {
+    type: Number,
   }
 });
 
@@ -40,6 +43,7 @@ export interface ISecretCfg {
   encryptPassword?: string,
   decryptPassword: string,
   note?: string,
+  phone?: number
 }
 
 export interface ISecret extends Document, ISecretCfg {

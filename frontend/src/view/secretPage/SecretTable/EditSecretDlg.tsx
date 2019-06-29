@@ -86,6 +86,11 @@ export class EditSecretDlg extends React.PureComponent<EditSecretDlgProps> {
               ],
             })(<Input.Password/>)}
           </Form.Item>
+          <Form.Item label="绑定电话">
+            {getFieldDecorator('phone', {
+              initialValue: currentSecret.phone,
+            })(<Input/>)}
+          </Form.Item>
           <Form.Item label="备注">
             {getFieldDecorator('note', {
               initialValue: currentSecret.note,

@@ -7,6 +7,7 @@ export enum SecretSortableProps {
   DECRYPT_PASSWORD = 'decryptPassword',
   NOTE = 'note',
   EMPTY = 'empty',
+  PHONE = 'phone',
 }
 
 export interface SecretCfg {
@@ -16,6 +17,7 @@ export interface SecretCfg {
   [SecretSortableProps.USER_NAME]: string,
   [SecretSortableProps.DECRYPT_PASSWORD]: string,
   [SecretSortableProps.NOTE]?: string,
+  [SecretSortableProps.PHONE]?: number
 }
 
 export interface Secret extends SecretCfg {

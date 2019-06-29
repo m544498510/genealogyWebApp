@@ -76,6 +76,9 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
               ],
             })(<Input.Password/>)}
           </Form.Item>
+          <Form.Item label="绑定电话">
+            {getFieldDecorator('phone')(<Input/>)}
+          </Form.Item>
           <Form.Item label="备注">
             {getFieldDecorator('note')(<TextArea/>)}
           </Form.Item>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Fragment} from "react";
-import {Icon, message, Popconfirm, Table} from 'antd';
+import {Icon, message, Popconfirm, Table, Tooltip} from 'antd';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {connect} from 'react-redux';
 
@@ -115,7 +115,7 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
             title="名称"
             dataIndex="siteName"
             key="siteName"
-            width="30%"
+            width="25%"
             sorter={true}
             sortOrder={this.getOrderByTarget("siteName")}
             render={(text, item: Secret) => {
@@ -179,6 +179,26 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
             key="note"
             width="25%"
           />
+          <Column
+            title="其他"
+            dataIndex="other"
+            key="other"
+            width="5%"
+            render={(_, item: Secret) => {
+              return (
+                <Fragment>
+                  {
+                    item.phone ? (
+                      <Tooltip title={item.phone}>
+                        <Icon type="mobile" />
+                      </Tooltip>
+                    ) : null
+                  }
+                </Fragment>
+              )
+            }}
+          />
+
           <Column
             title="操作"
             dataIndex="action"
