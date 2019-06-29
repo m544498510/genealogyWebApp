@@ -189,7 +189,7 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
                 <Fragment>
                   {
                     item.phone ? (
-                      <Tooltip title={item.phone}>
+                      <Tooltip title={`绑定手机：${item.phone}`}>
                         <Icon type="mobile" />
                       </Tooltip>
                     ) : null

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Form, Input, InputNumber, message, Modal} from "antd";
+import {Form, Input, message, Modal} from "antd";
 import {FormComponentProps} from "antd/lib/form";
 import {connect} from 'react-redux';
 import {actions, Secret, SecretCfg} from "~/core/secret";
@@ -41,6 +41,7 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
         visible={visible}
         onCancel={onCancel}
         onOk={this.onCommit}
+        className="create-secret-dlg"
       >
         <Form {...formItemLayout}>
           <Form.Item label="网站名称">
@@ -77,7 +78,7 @@ export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
             })(<Input.Password/>)}
           </Form.Item>
           <Form.Item label="绑定电话">
-            {getFieldDecorator('phone')(<InputNumber/>)}
+            {getFieldDecorator('phone')(<Input/>)}
           </Form.Item>
           <Form.Item label="备注">
             {getFieldDecorator('note')(<TextArea/>)}

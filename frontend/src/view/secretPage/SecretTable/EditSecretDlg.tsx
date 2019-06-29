@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Form, Input, InputNumber, message, Modal} from "antd";
+import {Form, Input, message, Modal} from "antd";
 import {FormComponentProps} from "antd/lib/form";
 import {connect} from 'react-redux';
 import {actions, Secret, SecretCfg} from "~/core/secret";
@@ -26,7 +26,6 @@ export class EditSecretDlg extends React.PureComponent<EditSecretDlgProps> {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const secret = Object.assign({}, this.props.currentSecret, values);
-        secret.phone = parseInt(secret);
         this.props.editSecret(secret)
           .finally(this.props.onCancel)
           .then(() => message.success("修改成功！"))
@@ -46,6 +45,7 @@ export class EditSecretDlg extends React.PureComponent<EditSecretDlgProps> {
         visible={visible}
         onCancel={onCancel}
         onOk={this.onCommit}
+        className="edit-secret-dlg"
       >
         <Form {...formItemLayout}>
           <Form.Item label="网站名称">
@@ -89,7 +89,7 @@ export class EditSecretDlg extends React.PureComponent<EditSecretDlgProps> {
           <Form.Item label="绑定电话">
             {getFieldDecorator('phone', {
               initialValue: currentSecret.phone,
-            })(<InputNumber />)}
+            })(<Input />)}
           </Form.Item>
           <Form.Item label="备注">
             {getFieldDecorator('note', {
