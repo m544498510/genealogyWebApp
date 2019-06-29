@@ -14,18 +14,15 @@ export interface CreateSecretDlgProps extends FormComponentProps {
 }
 
 export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
-  componentDidUpdate(prevProps: CreateSecretDlgProps): void {
-    if (prevProps.visible === true && this.props.visible === false) {
-      this.props.form.resetFields();
-    }
-  }
-
   onCommit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         this.props.createSecret(values)
-          .finally(this.props.onCancel)
+          .finally(() => {
+            this.props.form.resetFields();
+            this.props.onCancel();
+          })
           .then(() => message.success("添加成功！"))
           .catch(ajaxErrorDialog);
       }
