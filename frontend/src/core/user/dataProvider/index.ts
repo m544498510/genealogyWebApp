@@ -5,14 +5,14 @@ import {mutation, query} from "~/utils/graphqlUtil";
 import {ADD_USER, QUERY_CURRENT_USER} from "~/core/user/dataProvider/graphql";
 
 export function login(name: string, password: string): Promise<User> {
-  return ajaxPost(`${baseApiPath}/user/session`, {
+  return ajaxPost(`${baseApiPath}/session`, {
     name,
     password
   }, true);
 }
 
 export function logout(): Promise<boolean> {
-  return ajaxDel<boolean>(`${baseApiPath}/user/session`);
+  return ajaxDel<boolean>(`${baseApiPath}/session`);
 }
 
 export function getCurrentUser(): Promise<User> {

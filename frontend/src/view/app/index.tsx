@@ -20,7 +20,7 @@ export const App = () => (
 
 const AuthComponent = ({ match }: RouteComponentProps) => (
   <Layout
-    logo="/asset/logo.png"
+    logo="/public/asset/logo.png"
     title="May's Zone"
   >
     <Switch>

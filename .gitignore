@@ -14,5 +14,5 @@ build
 
 # build file
 frontend/public/index.html
-*/backend/public
+backend/public
 

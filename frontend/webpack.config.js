@@ -103,7 +103,13 @@ if (isDevMode) {
       publicPath: '/public/',
       proxy: {
         '/api': proxyPath,
-        '/graphql': proxyPath
+        '/graphql': proxyPath,
+        '/public/asset/*': {
+          target: 'http://127.0.0.1:3000',
+          pathRewrite: { '/public': '' },
+          changeOrigin: true,
+          secure: false,
+        },
       },
       historyApiFallback: {
         rewrites: [
