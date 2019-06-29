@@ -1,7 +1,6 @@
 import path from 'path';
 
 import Koa from 'koa';
-import Router from 'koa-router';
 import json from 'koa-json';
 import bodyParser from 'koa-bodyparser';
 import staticTool from 'koa-static';
@@ -64,9 +63,7 @@ const apolloServer = new ApolloServer({
 apolloServer.applyMiddleware({app, path: apiPrefix.graphql});
 
 //restful api
-const router = new Router<any, Koa.Context>();
-router.use('/api', api.routes());
-app.use(router.routes());
+app.use(api.routes());
 //for single application
 app.use(pageRouter.routes());
 

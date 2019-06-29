@@ -8,10 +8,6 @@ const router = new Router<any, Context>({
   prefix: '/session'
 });
 
-router.get('/', ctx => {
-  responseUtils.success(ctx, "success");
-});
-
 router.post('/', async ctx => {
   try {
     const param = ctx.request.body;
