@@ -13,7 +13,7 @@ const typeDefs = gql`
     userName: String!
     decryptPassword: String!
     note: String
-    phone: Number
+    phone: Int
   }
   input addSecretInput {
     siteName: String!
@@ -21,7 +21,7 @@ const typeDefs = gql`
     userName: String!
     decryptPassword: String!
     note: String
-    phone: Number
+    phone: Int
   }
   input updateSecretInput {
     _id: String!
@@ -31,7 +31,7 @@ const typeDefs = gql`
     userName: String!
     decryptPassword: String!
     note: String
-    phone: Number
+    phone: Int
   }
   type Query {
     secrets: [Secret!]!
