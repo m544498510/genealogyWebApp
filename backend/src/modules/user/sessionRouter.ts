@@ -4,9 +4,15 @@ import {getUser} from './service';
 import * as responseUtils from '../../utils/responseUtils';
 import HttpError from '../../utils/HttpError';
 
-const router = new Router<any, Context>();
+const router = new Router<any, Context>({
+  prefix: '/session'
+});
 
-router.post('/session', async ctx => {
+router.get('/', ctx => {
+  responseUtils.success(ctx, "success");
+});
+
+router.post('/', async ctx => {
   try {
     const param = ctx.request.body;
     const user = await getUser(param.name, param.password);
@@ -25,7 +31,7 @@ router.post('/session', async ctx => {
   }
 });
 
-router.delete('/session', ctx => {
+router.delete('/', ctx => {
   if (ctx.session) {
     ctx.session.user = null;
   }

@@ -8,19 +8,25 @@ import staticTool from 'koa-static';
 import {ApolloServer} from 'apollo-server-koa';
 import session from 'koa-session';
 import mount from 'koa-mount';
+import compress from 'koa-compress';
 
 import mongoose from 'mongoose';
 
 import {addLogger, errorLog} from './utils/log';
-import {DB_CFG, PORT, apiPrefix} from './config';
+import {DB_CFG, PORT, apiPrefix, noAuthApiPrefixList} from './config';
 
 import api from './modules/routers';
 import schema from './modules/schema';
 import {getUserInfo} from './utils/sessionUtils';
+import pageRouter from './modules/page/router';
 
 console.log("starting...");
 const app = new Koa();
 app.keys = ["cookie key"];
+
+app.use(compress({
+  threshold: 2048,
+}));
 
 //add the static server
 const publicPath = path.resolve(__dirname, '../public');
@@ -40,13 +46,13 @@ app.use(async (ctx: Koa.Context, next: Function) => {
   //session filter
   const url = ctx.request.url;
   if (url.includes(apiPrefix.api) || url.includes(apiPrefix.graphql)) {
-    if (url.includes(apiPrefix.session) || getUserInfo(ctx)) {
+    if (noAuthApiPrefixList.some(noAuthPrefix => url.includes(noAuthPrefix)) || getUserInfo(ctx)) {
       await next();
     } else {
       ctx.response.status = 401;
     }
   } else {
-    //pass the page request
+    //pass the static request
     next();
   }
 });
@@ -61,6 +67,8 @@ apolloServer.applyMiddleware({app, path: apiPrefix.graphql});
 const router = new Router<any, Koa.Context>();
 router.use('/api', api.routes());
 app.use(router.routes());
+//for single application
+app.use(pageRouter.routes());
 
 app.listen(PORT, () => {
   console.log('Listening at port', PORT);

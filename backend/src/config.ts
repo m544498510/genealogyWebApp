@@ -12,8 +12,14 @@ export const apiPrefix = {
   api: '/api',
   graphql: '/graphql',
   session: '/session',
+  user: '/user',
   public: '/public',
 };
+
+export const noAuthApiPrefixList = [
+  apiPrefix.session,
+  apiPrefix.user
+];
 
 //log config
 const errLogPath = path.resolve(__dirname, "../bin/runningData/logs/error/date");

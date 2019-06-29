@@ -1,10 +1,10 @@
 import {Context} from "koa";
 import Router from 'koa-router';
 import sessionRouter from './user/sessionRouter';
-import pageRouter from './page/router';
+import userRouter from './user/userRouter';
 
 const router = new Router<any, Context>();
-router.use('/user',sessionRouter.routes(), sessionRouter.allowedMethods());
-router.use(pageRouter.routes(), pageRouter.allowedMethods());
+router.use(sessionRouter.routes(), sessionRouter.allowedMethods());
+router.use(userRouter.routes(), userRouter.allowedMethods());
 
 export default router;
