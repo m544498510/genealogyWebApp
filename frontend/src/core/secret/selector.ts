@@ -42,15 +42,25 @@ export const getDisplaySecrets = createSelector(
     let filterIds = ids;
 
     if (keyword !== '') {
-      filterIds = filterIds.filter(id => {
+      const key = keyword.toLowerCase();
+      const siteNameList: Secret[] = [];
+      const urlList: Secret[] = [];
+      const userNameList: Secret[] = [];
+      const noteList: Secret[] = [];
+
+      filterIds.forEach(id => {
         const secret = map.get(id);
-        return (
-          secret.siteName.includes(keyword)
-          || (secret.url && secret.url.includes(keyword))
-          || secret.userName.includes(keyword)
-          || ( secret.note && secret.note.includes(keyword))
-        );
-      })
+        if(secret.siteName.toLowerCase().includes(key)){
+          siteNameList.push(secret);
+        }else if(secret.url && secret.url.toLowerCase().includes(key)){
+          urlList.push(secret);
+        }else if(secret.userName.toLowerCase().includes(key)){
+          userNameList.push(secret);
+        }else if(secret.note && secret.note.toLowerCase().includes(keyword)){
+          noteList.push(secret);
+        }
+      });
+      return [...siteNameList, ...urlList, ...userNameList, ...noteList];
     }
 
     let filterSecrets = filterIds.map(id => map.get(id));

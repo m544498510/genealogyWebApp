@@ -14,7 +14,7 @@ export interface CreateSecretDlgProps extends FormComponentProps {
 }
 
 export class CreateSecretDlg extends React.PureComponent<CreateSecretDlgProps> {
-  onCommit = (e: React.FormEvent<HTMLFormElement>) => {
+  onCommit = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {

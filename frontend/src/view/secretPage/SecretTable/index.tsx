@@ -115,7 +115,7 @@ export class SecretTable extends React.PureComponent<SecretTableProps, SecretTab
             title="名称"
             dataIndex="siteName"
             key="siteName"
-            width="25%"
+            width="15%"
             sorter={true}
             sortOrder={this.getOrderByTarget("siteName")}
             render={(text, item: Secret) => {
