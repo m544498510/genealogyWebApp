@@ -5,7 +5,7 @@ cd ../backend/bin
 start  mongoStart.bat
 
 cd ../
-start npm start
+start yarn start
 
 cd ../frontend
-npm start
+yarn start

@@ -3,8 +3,8 @@
 cd `dirname $0`
 
 cd ../frontend
-npm i
-npm run build
+yarn install
+yarn build
 
 cp -r ./public ../backend/
 
@@ -15,5 +15,5 @@ if [ ! -d "./runningData" ]; then
 fi
 
 cd ../
-npm i
-npm run start:pro
+yarn install
+yarn start:pro
